@@ -85,39 +85,67 @@ const TodoList = () => {
     const taskToEdit = tasks.find((task) => task.id === taskId);
     setInputValue(taskToEdit.title);
   };
+// i have try its  code seems correct, the issue likely lies with the API or its configuration.
+//Since this error is occurring on the server side, there's not much you can do on the client side to fix it.
+  
+
+/* Update a task
+const handleUpdateTask = async () => {
+  if (inputValue.trim() === '') {
+    return;
+  }
+
+  const updatedTask = {
+    title: inputValue,
+    completed: false
+  };
+
+  try {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${editTaskId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updatedTask),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+
+    console.log('Response status:', response.status);
+
+    if (!response.ok) {
+      console.log('Response error:', response.statusText);
+      throw new Error('Error updating task');
+    }
+
+    const updatedTaskData = await response.json();
+    console.log('Updated task data:', updatedTaskData);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === editTaskId ? { ...task, title: updatedTaskData.title } : task
+      )
+    );
+    setInputValue('');
+    setEditTaskId(null);
+    toast.success('Task updated successfully');
+  } catch (error) {
+    console.log('Error updating task:', error);
+    toast.error('Error updating task');
+  }
+};*/
 
   // Update a task
-  const handleUpdateTask = async () => {
+  const handleUpdateTask = () => {
     if (inputValue.trim() === '') {
       return;
     }
 
-    const updatedTask = {
-      title: inputValue,
-      completed: false
-    };
-
-    try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${editTaskId}`, {
-        method: 'PUT',
-        body: JSON.stringify(updatedTask),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      const updatedTaskData = await response.json();
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === editTaskId ? { ...task, title: updatedTaskData.title } : task
-        )
-      );
-      setInputValue('');
-      setEditTaskId(null);
-      toast.success('Task updated successfully');
-    } catch (error) {
-      console.log('Error updating task:', error);
-      toast.error('Error updating task');
-    }
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === editTaskId ? { ...task, title: inputValue } : task
+      )
+    );
+    setInputValue('');
+    setEditTaskId(null);
+    toast.success('Task updated successfully');
   };
 
   // Mark all tasks as completed
@@ -253,3 +281,4 @@ const TodoList = () => {
 };
 
 export default TodoList;
+
